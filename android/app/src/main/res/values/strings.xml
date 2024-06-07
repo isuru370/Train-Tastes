@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="facebook_app_id">8480737141953370</string>
+    <string name="fb_login_protocol_scheme">fb3e6d4a1a32e4013ef300c7f3e6e70a36e8e0c0fa617485f5e9af5dbe6b3066</string>
+    <string name="facebook_client_token">9c9d50d534c35f19f7f1eea926ed7038</string>
+    <string name="app_name">Train Tastes</string>
+
+
 </resources>

@@ -1,41 +1,26 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:provider/provider.dart';
-import 'package:train_tastes/providers/screen_index_provider/screen_index_provider.dart';
-import 'package:train_tastes/providers/them_provider/theme.provider.dart';
-import 'package:train_tastes/routes/route.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:train_tastes/app.dart';
+import 'package:train_tastes/simple_bloc_observer.dart';
+import 'package:user_repository/user_repository.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  Bloc.observer = SimpleBlocObserver();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,
+  );
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   FlutterNativeSplash.remove();
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-    )
-  ], child: const MyApp()));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => ScreenIndexProvider(),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: Provider.of<ThemeProvider>(context).themeData,
-        routes: route,
-        initialRoute: '/loginScreen',
-      ),
-    );
-  }
+  runApp(TrainTastes(FirebaseUserRepository()));
 }
