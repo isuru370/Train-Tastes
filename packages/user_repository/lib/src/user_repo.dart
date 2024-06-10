@@ -6,15 +6,15 @@ abstract class UserRepository {
 
   Future<void> signInEmail(String email, String password);
 
-  Future<bool> signInUpGoogle();
+  Future<MyUser> signInUpGoogle();
 
-  Future<bool> signInUpFacebook();
+  Future<MyUser> signInUpFacebook();
 
   Future<void> logOut();
 
   Future<void> resetPassword(String email);
 
-  Future<void> setUser(MyUser myUser);
+  Future<bool> setUser(MyUser myUser);
 
   Future<MyUser> getUser(String myUserId);
 }

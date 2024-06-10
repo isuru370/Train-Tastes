@@ -9,4 +9,6 @@ sealed class SocialSignEvent extends Equatable {
 
 class FacebookSignRequest extends SocialSignEvent {}
 
-class GoogleSignRequest extends SocialSignEvent {}
+class GoogleSignRequest extends SocialSignEvent {
+  const GoogleSignRequest();
+}

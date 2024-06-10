@@ -42,7 +42,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
             );
           }
           if (state is EmailSignInSuccess) {
-            Navigator.pushNamed(context, '/home');
+            Navigator.pushNamed(context, '/landingScreen');
           }
         },
         child: BlocBuilder<EmailSignBloc, EmailSignState>(

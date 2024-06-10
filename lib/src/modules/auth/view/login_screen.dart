@@ -25,27 +25,35 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _email = TextEditingController();
-  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
-      GlobalKey<ScaffoldMessengerState>();
   @override
   Widget build(BuildContext context) {
-    final facebookBloc = BlocProvider.of<SocialSignBloc>(context);
+    final authBloc = BlocProvider.of<SocialSignBloc>(context);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return Scaffold(
-      body: BlocBuilder<SocialSignBloc, SocialSignState>(
-          builder: (context, state) {
-        if (state is AuthSignFailure) {}
-        if (state is AuthSignSuccess) {
-          Navigator.pushNamed(context, '/home');
-        }
-        return BlocBuilder<SocialSignBloc, SocialSignState>(
+      body: BlocListener<SocialSignBloc, SocialSignState>(
+        listener: (context, state) {
+          if (state is AuthSignFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  state.failureMassage!,
+                ),
+              ),
+            );
+          }
+          if (state is AuthSignSuccess) {
+            if (state.firstLoginUser!) {
+              Navigator.pushNamed(context, '/introScreen');
+            } else {
+              Navigator.pushNamed(context, '/landingScreen');
+            }
+          }
+        },
+        child: BlocBuilder<SocialSignBloc, SocialSignState>(
             builder: (context, state) {
           if (state is AuthSignProcess) {
-            return Center(
-              child: CircularProgressIndicator(
-                backgroundColor: ColorUtil.tealColor[10],
-                color: ColorUtil.whiteColor[10],
-              ),
+            return const Center(
+              child: CircularProgressIndicator(),
             );
           }
           return SingleChildScrollView(
@@ -96,12 +104,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       SocialMediaAuthWidget(
                           onTap: () {
-                            facebookBloc.add(FacebookSignRequest());
+                            authBloc.add(const GoogleSignRequest());
                           },
                           socialImageUrl: ImagesUtil.googleIcon),
                       SocialMediaAuthWidget(
                           onTap: () {
-                            facebookBloc.add(FacebookSignRequest());
+                            authBloc.add(FacebookSignRequest());
                           },
                           socialImageUrl: ImagesUtil.facebookIcon),
                     ],
@@ -111,8 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           );
-        });
-      }),
+        }),
+      ),
     );
   }
 }

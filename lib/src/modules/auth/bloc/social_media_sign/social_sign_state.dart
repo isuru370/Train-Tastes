@@ -11,7 +11,10 @@ final class AuthSignInitial extends SocialSignState {}
 
 final class AuthSignProcess extends SocialSignState {}
 
-final class AuthSignSuccess extends SocialSignState {}
+final class AuthSignSuccess extends SocialSignState {
+  final bool? firstLoginUser;
+  const AuthSignSuccess({this.firstLoginUser});
+}
 
 final class AuthSignFailure extends SocialSignState {
   final String? failureMassage;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../component/view_contend_widget.dart';
+import '../../components/view_contend_widget.dart';
 
 class IntroPageView1 extends StatelessWidget {
   const IntroPageView1({super.key});

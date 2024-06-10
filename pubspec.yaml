@@ -19,15 +19,18 @@ dependencies:
   carousel_slider: ^4.2.1
   firebase_core: ^2.24.2
   firebase_app_check: ^0.2.1+8
+  equatable: ^2.0.5
+  persistent_bottom_nav_bar: ^5.0.2
 
   # --- firebase ---
-  # cloud_firestore: ^4.14.0
   firebase_auth: ^4.16.0
-  equatable: ^2.0.5
+  
 
   # Custom Repository
   user_repository:
     path: packages/user_repository
+  
+  
   
 
 

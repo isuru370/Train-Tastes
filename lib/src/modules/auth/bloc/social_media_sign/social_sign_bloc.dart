@@ -13,12 +13,19 @@ class SocialSignBloc extends Bloc<SocialSignEvent, SocialSignState> {
       emit(AuthSignProcess());
       try {
         await userRepository.signInUpFacebook().then(
-          (value) {
-            if (value) {
-              emit(AuthSignProcess());
-            } else {
-              emit(const AuthSignFailure(
-                  failureMassage: "facebook login failed"));
+          (loggedInUser) async {
+            if (loggedInUser.isNotEmpty) {
+              await userRepository.setUser(loggedInUser).then(
+                (checkNewUser) {
+                  try {
+                    emit(AuthSignSuccess(firstLoginUser: checkNewUser));
+                  } on FirebaseAuthException catch (e) {
+                    emit(AuthSignFailure(failureMassage: e.toString()));
+                  } catch (e) {
+                    emit(AuthSignFailure(failureMassage: e.toString()));
+                  }
+                },
+              );
             }
           },
         );
@@ -34,12 +41,19 @@ class SocialSignBloc extends Bloc<SocialSignEvent, SocialSignState> {
       emit(AuthSignProcess());
       try {
         await userRepository.signInUpGoogle().then(
-          (value) {
-            if (value) {
-              emit(AuthSignProcess());
-            } else {
-              emit(const AuthSignFailure(
-                  failureMassage: "facebook login failed"));
+          (loggedInUser) async {
+            if (loggedInUser.isNotEmpty) {
+              await userRepository.setUser(loggedInUser).then(
+                (checkNewUser) {
+                  try {
+                    emit(AuthSignSuccess(firstLoginUser: checkNewUser));
+                  } on FirebaseAuthException catch (e) {
+                    emit(AuthSignFailure(failureMassage: e.toString()));
+                  } catch (e) {
+                    emit(AuthSignFailure(failureMassage: e.toString()));
+                  }
+                },
+              );
             }
           },
         );
@@ -48,7 +62,6 @@ class SocialSignBloc extends Bloc<SocialSignEvent, SocialSignState> {
       } catch (e) {
         emit(AuthSignFailure(failureMassage: e.toString()));
       }
-      emit(const AuthSignFailure());
     });
   }
 }
