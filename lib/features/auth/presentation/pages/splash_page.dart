@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Shown for a moment while the app checks if someone is logged in.
 class SplashPage extends StatelessWidget {

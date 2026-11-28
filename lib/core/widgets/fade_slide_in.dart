@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Fades and slides its child up when it first appears.
 /// Use [delay] to make items come in one after another.
